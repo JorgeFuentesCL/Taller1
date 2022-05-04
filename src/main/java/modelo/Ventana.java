@@ -2,13 +2,19 @@ package modelo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  *
  * @author bcast
  */
 public class Ventana extends JFrame {
-
+    private ArrayList<Estudiante> estudiantesLista = new ArrayList<Estudiante>();
+    private Object[] obj = new Object[4];
+    private DefaultTableModel dfTable;
     private JPanel panel;
     private JLabel nombreL;
     private JLabel matriculaL;
@@ -38,34 +44,52 @@ public class Ventana extends JFrame {
         this.agregar = new JButton("Agregar");
         this.eliminar = new JButton("Eliminar");
         this.tabla = new JTable();
+        dfTable = new DefaultTableModel();
+        dfTable.addColumn("Nombre");
+        dfTable.addColumn("Matricula");
+        dfTable.addColumn("Carrera");
+        dfTable.addColumn("Correo");
+        this.tabla.setModel(dfTable);
+        
+        
         this.scroll = new JScrollPane();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.agregarComponentes();
+
     }
 
-    private void limpiar(java.awt.event.MouseEvent evt) {                                        
-                                                
-    }
+    @SuppressWarnings("unchecked")
 
     public void agregarComponentes() {
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{
-                    "Nombre", "Matricula", "Carrera", "Correo"
-                }
+        
 
-    
 
-    ));
-    scroll.setViewportView (tabla);
-    javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
 
-    panel.setLayout (panelLayout);
+        limpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseClicked(evt);
+            }
+        });
 
-    panelLayout.setHorizontalGroup (
-            panelLayout.createParallelGroup
+        agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarMouseClicked(evt);
+            }
+        });
 
-    (javax.swing.GroupLayout.Alignment.LEADING)
+        eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseClicked(evt);
+            }
+        });
+
+        scroll.setViewportView(tabla);
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+
+        panel.setLayout(panelLayout);
+
+        panelLayout.setHorizontalGroup(
+                panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(panelLayout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -94,9 +118,8 @@ public class Ventana extends JFrame {
                                                         .addComponent(carreraTF))))
                                 .addContainerGap(30, Short.MAX_VALUE))
         );
-    panelLayout.setVerticalGroup (
-            panelLayout.createParallelGroup
-    (javax.swing.GroupLayout.Alignment.LEADING)
+        panelLayout.setVerticalGroup(
+                panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(panelLayout.createSequentialGroup()
@@ -127,23 +150,52 @@ public class Ventana extends JFrame {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 
-    getContentPane()
-
-    .setLayout(layout);
-    layout.setHorizontalGroup (
-            layout.createParallelGroup
-
-    (javax.swing.GroupLayout.Alignment.LEADING)
+        getContentPane()
+                .setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-    layout.setVerticalGroup (
-            layout.createParallelGroup
-
-    (javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-    pack();
-}
+        pack();
+    }
+
+    private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {
+        nombreTF.setText("");
+        matriculaTF.setText("");
+        carreraTF.setText("");
+        correoTF.setText("");
+
+    }
+
+    private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {
+        String nomTF, carrTF, matTF, corTF;
+        nomTF = nombreTF.getText();
+        carrTF = carreraTF.getText();
+        matTF = matriculaTF.getText();
+        corTF = correoTF.getText();
+        
+        Estudiante estudiante = new Estudiante(nomTF,carrTF,matTF,corTF);
+        estudiantesLista.add(estudiante);
+        obj[0] = nomTF;
+        obj[1] = matTF;
+        obj[2] = carrTF;
+        obj[3] = corTF;
+        dfTable.addRow(obj);
+    }
+    
+     public void cargarListadoEnTabla(ArrayList<Estudiante> lista){
+        for(int i=0; i<lista.size(); i++){
+            obj[0] = lista.get(i).getNombre();
+            obj[1] = lista.get(i).getMatricula();
+            obj[2] = lista.get(i).getCarrera();
+            obj[3] = lista.get(i).getCorreo();
+            dfTable.addRow(obj);
+        }
+    }
 
 }

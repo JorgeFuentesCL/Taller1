@@ -1,10 +1,13 @@
 package modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author jorge
  */
 public class Estudiante {
+    
     
     private String nombre, matricula, carrera, correo;
 
