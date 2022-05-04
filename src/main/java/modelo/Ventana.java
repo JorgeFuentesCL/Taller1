@@ -44,14 +44,7 @@ public class Ventana extends JFrame {
     }
 
     private void limpiar(java.awt.event.MouseEvent evt) {                                        
-                                               
-        txtNombre.setText("");
-        txtModelo.setText("");
-        txtPatente.setText("");
-        txtColor.setText("");
-        txtAnio.setText("");
-        txtKilometraje.setText("");
-        txtPrecio.setText("");
+                                                
     }
 
     public void agregarComponentes() {
